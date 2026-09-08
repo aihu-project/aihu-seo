@@ -26,8 +26,6 @@ should use `@aihu-plugin/agent-readiness` directly.
 ## Install
 
 <!-- BEGIN_AUTOGEN: install -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 ```bash
 npm install @aihu/seo
 # or
@@ -41,8 +39,6 @@ bun add @aihu/seo
 ## Package facts
 
 <!-- BEGIN_AUTOGEN: stats -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 | | |
 |---|---|
 | **Version** | `1.0.6` |
@@ -57,8 +53,6 @@ bun add @aihu/seo
 ## Exports
 
 <!-- BEGIN_AUTOGEN: exports -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 | Subpath | ESM | CJS |
 |---|---|---|
 | `.` | `./dist/index.js` | `—` |
@@ -70,8 +64,6 @@ bun add @aihu/seo
 ## Dependencies
 
 <!-- BEGIN_AUTOGEN: deps -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 **Dependencies:**
 
 - `@aihu/plugin` — `^0.1.1`
@@ -85,8 +77,6 @@ bun add @aihu/seo
 ## See also
 
 <!-- BEGIN_AUTOGEN: see-also -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 - [@aihu-plugin/agent-readiness](https://www.npmjs.com/package/@aihu-plugin/agent-readiness)
 - [Aihu project](https://github.com/aihu-project/aihu)
 
@@ -97,8 +87,6 @@ bun add @aihu/seo
 ## License
 
 <!-- BEGIN_AUTOGEN: license -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 MIT — see [LICENSE](LICENSE).
 
 <sub><i>Auto-generated against `@aihu/seo@1.0.6`.</i></sub>

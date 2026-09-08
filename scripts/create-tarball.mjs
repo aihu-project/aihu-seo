@@ -10,7 +10,8 @@ const outputDir = resolve(process.argv[3] ?? resolve(root, '.artifacts', 'pack')
 rmSync(outputDir, { recursive: true, force: true })
 mkdirSync(outputDir, { recursive: true })
 
-const raw = execFileSync('npm', ['pack', '--ignore-scripts', '--json', '--pack-destination', outputDir], {
+const npmCommand = process.env.NPM_CLI ?? 'npm'
+const raw = execFileSync(npmCommand, ['pack', '--ignore-scripts', '--json', '--pack-destination', outputDir], {
   cwd: root,
   encoding: 'utf8',
   stdio: ['ignore', 'pipe', 'inherit'],

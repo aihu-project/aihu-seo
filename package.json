@@ -24,7 +24,7 @@
     "build": "rolldown -c rolldown.config.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "prepublishOnly": "npm run build"
+    "verify:readme": "node scripts/assert-readme-facts.mjs"
   },
   "dependencies": {
     "@aihu/plugin": "^0.1.1",

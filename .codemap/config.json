@@ -16,12 +16,13 @@
         "id": "release-artifact-contract",
         "paths": [".github/workflows/*.yml", "scripts/*.mjs", "consumer/**", "package.json"],
         "keywords": ["v1.0.6", "provenance", "E404", "tarball", "NPM_CONFIG_USERCONFIG"],
-        "docs": ["README.md", "CHANGELOG.md"],
+        "docs": ["README.md", "CHANGELOG.md", "docs/release.md"],
         "note": "The release workflow, tarball verifier, and isolated consumer must agree on one package version and one captured artifact path; these are string and process couplings rather than import edges."
       }
     ]
   },
   "drift": {
+    "enabled": true,
     "require_docs_for": ["compatibility-api", "release-artifact-contract"]
   },
   "guidance": {}

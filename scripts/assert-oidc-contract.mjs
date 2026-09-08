@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
 
 function versionTuple(version) {
   const match = /^v?(\d+)\.(\d+)\.(\d+)$/.exec(version)
@@ -15,15 +16,27 @@ if (actual[0] < minimum[0] || (actual[0] === minimum[0] && (actual[1] < minimum[
   throw new Error(`npm ${npmVersion} is below the trusted-publishing minimum 11.5.1`)
 }
 
-const tokenNames = ['NODE_AUTH_TOKEN', 'NPM_TOKEN']
-for (const name of tokenNames) {
-  if (process.env[name]) throw new Error(`${name} is set; classic-token publishing is rejected`)
+const blockedNames = /^(?:NODE_AUTH_TOKEN|NPM_TOKEN|npm_config_.*(?:auth|token|password|username))$/i
+const blocked = Object.keys(process.env).filter((name) => blockedNames.test(name) && process.env[name])
+if (blocked.length) {
+  throw new Error(`classic npm credentials are present in the environment (${blocked.join(', ')})`)
 }
 const userConfig = process.env.NPM_CONFIG_USERCONFIG
-if (!userConfig) throw new Error('NPM_CONFIG_USERCONFIG must point at a sanitized npm config')
-const config = readFileSync(userConfig, 'utf8')
-if (/_authToken|_auth\s*=|token\s*=/i.test(config)) {
-  throw new Error(`npm config ${userConfig} contains an auth token; trusted publishing is fail-closed`)
+const globalConfig = process.env.NPM_CONFIG_GLOBALCONFIG
+if (!userConfig || !globalConfig) throw new Error('controlled user and global npm configs are required')
+for (const path of [userConfig, globalConfig]) {
+  if (!existsSync(path)) throw new Error(`controlled npm config is missing: ${path}`)
+  const config = readFileSync(path, 'utf8')
+  if (/_authToken|_auth\s*=|token\s*=|password\s*=|username\s*=/i.test(config)) {
+    throw new Error(`controlled npm config contains a credential: ${path}`)
+  }
+}
+const projectConfig = new URL('../.npmrc', import.meta.url)
+if (existsSync(projectConfig)) {
+  const config = readFileSync(projectConfig, 'utf8')
+  if (/_authToken|_auth\s*=|token\s*=|password\s*=|username\s*=/i.test(config)) {
+    throw new Error('project .npmrc contains a credential; trusted publishing is fail-closed')
+  }
 }
 
 if (process.argv.includes('--self-test')) {

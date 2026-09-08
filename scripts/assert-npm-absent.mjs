@@ -1,7 +1,8 @@
 import { spawnSync } from 'node:child_process'
 
 const spec = process.argv[2] ?? '@aihu/seo@1.0.6'
-const result = spawnSync('npm', ['view', spec, 'version', '--json'], { encoding: 'utf8' })
+const npmCommand = process.env.NPM_CLI ?? 'npm'
+const result = spawnSync(npmCommand, ['view', spec, 'version', '--json'], { encoding: 'utf8' })
 const output = `${result.stdout ?? ''}\n${result.stderr ?? ''}`
 if (result.status === 0) throw new Error(`${spec} already exists on npm; refusing to publish over it`)
 if (!/E404|No match found for version/i.test(output)) {
