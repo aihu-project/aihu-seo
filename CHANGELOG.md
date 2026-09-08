@@ -1,5 +1,13 @@
 # @aihu/seo
 
+## 1.0.6
+
+### Patch Changes
+
+- Extracted the deprecated compatibility shim into the standalone `aihu-project/aihu-seo` repository.
+- Replaced workspace-only dependency specifiers with published dependency ranges.
+- Preserved the `@aihu/seo` API and historical robots.txt behavior.
+
 ## 1.0.5
 
 ### Patch Changes

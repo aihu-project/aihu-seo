@@ -1,6 +1,6 @@
 {
   "pluginName": "@aihu/seo",
-  "pluginVersion": "1.0.5",
+  "pluginVersion": "1.0.6",
   "aihuVersion": "^0.2.0",
   "installSteps": [
     {
