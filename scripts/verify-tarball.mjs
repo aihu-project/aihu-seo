@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { basename } from 'node:path'
+import { EXPECTED_PACKAGE_FILES, EXPECTED_TARBALL_FILES } from './release-files.mjs'
 
 const tarball = process.argv[2]
 if (!tarball) throw new Error('usage: node scripts/verify-tarball.mjs /absolute/path/package.tgz')
@@ -23,6 +24,9 @@ if (packageJson.exports?.['.']?.types !== './dist/index.d.ts') throw new Error('
 if (JSON.stringify(packageJson.dependencies) !== JSON.stringify(expectedDeps)) {
   throw new Error(`published dependency ranges changed: ${JSON.stringify(packageJson.dependencies)}`)
 }
+if (JSON.stringify(packageJson.files) !== JSON.stringify(EXPECTED_PACKAGE_FILES)) {
+  throw new Error(`published files declaration changed: ${JSON.stringify(packageJson.files)}`)
+}
 const manifestText = JSON.stringify(packageJson)
 if (manifestText.includes('workspace:')) throw new Error('workspace dependency specifier leaked into tarball')
 
@@ -30,10 +34,12 @@ const members = execFileSync('tar', ['-tzf', tarball], { encoding: 'utf8' })
   .trim()
   .split('\n')
   .filter(Boolean)
-const forbidden = members.filter((name) => /(^|\/)src\/|(^|\/)tests\/|node_modules|\.github/.test(name))
-if (forbidden.length) throw new Error(`source/test files leaked into tarball: ${forbidden.join(', ')}`)
-for (const required of ['package/package.json', 'package/LICENSE', 'package/README.md', 'package/install-manifest.json', 'package/dist/index.js', 'package/dist/index.d.ts']) {
-  if (!members.includes(required)) throw new Error(`tarball is missing ${required}`)
+const actualFiles = [...members].sort()
+const expectedFiles = [...EXPECTED_TARBALL_FILES].sort()
+if (JSON.stringify(actualFiles) !== JSON.stringify(expectedFiles)) {
+  const unexpected = actualFiles.filter((name) => !expectedFiles.includes(name))
+  const missing = expectedFiles.filter((name) => !actualFiles.includes(name))
+  throw new Error(`tarball file allowlist mismatch; unexpected=${unexpected.join(', ') || 'none'}; missing=${missing.join(', ') || 'none'}`)
 }
 
 console.log(`verified ${tarball}: identity, exports, published dependency ranges, and files`)

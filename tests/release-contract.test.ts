@@ -1,5 +1,5 @@
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -59,5 +59,28 @@ describe('release contract regressions', () => {
     const docs = readFileSync(join(root, 'docs/release.md'), 'utf8')
     expect(docs).toContain('965cba0a13d2979551e9f71cdf034dab9e5869af')
     expect(docs).toContain('reviewed merge commit')
+  })
+
+  it('rejects any tarball member outside the release allowlist', () => {
+    const fixture = mkdtempSync(join(tmpdir(), 'aihu-seo-tarball-'))
+    const packageRoot = join(fixture, 'package')
+    const dist = join(packageRoot, 'dist')
+    mkdirSync(dist, { recursive: true })
+    for (const file of ['package.json', 'LICENSE', 'README.md', 'install-manifest.json']) {
+      cpSync(join(root, file), join(packageRoot, file))
+    }
+    writeFileSync(join(dist, 'index.js'), '')
+    writeFileSync(join(dist, 'index.d.ts'), '')
+    writeFileSync(join(dist, 'index.js.map'), '{}')
+    writeFileSync(join(packageRoot, 'CHANGELOG.md'), 'must not ship')
+    const tarball = join(fixture, 'aihu-seo-1.0.6.tgz')
+    execFileSync('tar', ['-czf', tarball, '-C', fixture, 'package'])
+    const result = spawnSync(process.execPath, ['scripts/verify-tarball.mjs', tarball], {
+      cwd: root,
+      encoding: 'utf8',
+    })
+    rmSync(fixture, { recursive: true, force: true })
+    expect(result.status).not.toBe(0)
+    expect(`${result.stdout}\n${result.stderr}`).toContain('tarball file allowlist mismatch')
   })
 })

@@ -1,5 +1,5 @@
-import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
+import { EXPECTED_PACKAGE_FILES, EXPECTED_TARBALL_FILES } from './release-files.mjs'
 
 const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
 const manifest = JSON.parse(readFileSync(new URL('../install-manifest.json', import.meta.url), 'utf8'))
@@ -20,10 +20,11 @@ for (const [name, range] of Object.entries(packageJson.dependencies ?? {})) {
 const exportConfig = packageJson.exports?.['.']
 if (exportConfig?.import) requireText(`| \`.\` | \`${exportConfig.import}\` |`, 'import export')
 
-const npmCommand = process.env.NPM_CLI ?? 'npm'
-const pack = JSON.parse(execFileSync(npmCommand, ['pack', '--ignore-scripts', '--dry-run', '--json'], { encoding: 'utf8' }))[0]
 const publishedFiles = Number(/\| \*\*Published files\*\* \| (\d+) entries \|/.exec(readme)?.[1])
-if (!Number.isInteger(publishedFiles) || publishedFiles !== pack.files.length) {
-  throw new Error(`README published file count ${publishedFiles} does not match npm pack count ${pack.files.length}`)
+if (!Number.isInteger(publishedFiles) || publishedFiles !== EXPECTED_TARBALL_FILES.length) {
+  throw new Error(`README published file count ${publishedFiles} does not match release allowlist count ${EXPECTED_TARBALL_FILES.length}`)
 }
-console.log(`verified README facts for ${packageJson.name}@${packageJson.version} (${pack.files.length} published files)`)
+if (JSON.stringify(packageJson.files) !== JSON.stringify(EXPECTED_PACKAGE_FILES)) {
+  throw new Error(`package files changed without updating the release contract: ${JSON.stringify(packageJson.files)}`)
+}
+console.log(`verified README facts for ${packageJson.name}@${packageJson.version} (${EXPECTED_TARBALL_FILES.length} published files)`)
