@@ -26,81 +26,69 @@ should use `@aihu-plugin/agent-readiness` directly.
 ## Install
 
 <!-- BEGIN_AUTOGEN: install -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 ```bash
 npm install @aihu/seo
 # or
 bun add @aihu/seo
 ```
 
-<sub><i>Auto-generated against `@aihu/seo@1.0.5`.</i></sub>
+<sub><i>Auto-generated against `@aihu/seo@1.0.6`.</i></sub>
 
 <!-- END_AUTOGEN: install -->
 
 ## Package facts
 
 <!-- BEGIN_AUTOGEN: stats -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 | | |
 |---|---|
-| **Version** | `1.0.5` |
+| **Version** | `1.0.6` |
 | **Tier** | C — Agent surface — DEPRECATED shim over @aihu-plugin/agent-readiness |
 | **Published files** | 7 entries |
 | **License** | MIT |
 
-<sub><i>Auto-generated against `@aihu/seo@1.0.5`.</i></sub>
+<sub><i>Auto-generated against `@aihu/seo@1.0.6`.</i></sub>
 
 <!-- END_AUTOGEN: stats -->
 
 ## Exports
 
 <!-- BEGIN_AUTOGEN: exports -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 | Subpath | ESM | CJS |
 |---|---|---|
 | `.` | `./dist/index.js` | `—` |
 
-<sub><i>Auto-generated against `@aihu/seo@1.0.5`.</i></sub>
+<sub><i>Auto-generated against `@aihu/seo@1.0.6`.</i></sub>
 
 <!-- END_AUTOGEN: exports -->
 
 ## Dependencies
 
 <!-- BEGIN_AUTOGEN: deps -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 **Dependencies:**
 
 - `@aihu/plugin` — `^0.1.1`
 - `@aihu/server` — `^0.6.0`
 - `@aihu-plugin/agent-readiness` — `^2.3.0`
 
-<sub><i>Auto-generated against `@aihu/seo@1.0.5`.</i></sub>
+<sub><i>Auto-generated against `@aihu/seo@1.0.6`.</i></sub>
 
 <!-- END_AUTOGEN: deps -->
 
 ## See also
 
 <!-- BEGIN_AUTOGEN: see-also -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 - [@aihu-plugin/agent-readiness](https://www.npmjs.com/package/@aihu-plugin/agent-readiness)
 - [Aihu project](https://github.com/aihu-project/aihu)
 
-<sub><i>Auto-generated against `@aihu/seo@1.0.5`.</i></sub>
+<sub><i>Auto-generated against `@aihu/seo@1.0.6`.</i></sub>
 
 <!-- END_AUTOGEN: see-also -->
 
 ## License
 
 <!-- BEGIN_AUTOGEN: license -->
-<!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
-
 MIT — see [LICENSE](LICENSE).
 
-<sub><i>Auto-generated against `@aihu/seo@1.0.5`.</i></sub>
+<sub><i>Auto-generated against `@aihu/seo@1.0.6`.</i></sub>
 
 <!-- END_AUTOGEN: license -->

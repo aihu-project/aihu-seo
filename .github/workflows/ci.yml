@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    env:
+      NPM_CONFIG_USERCONFIG: ${{ github.workspace }}/.artifacts/npmrc-ci
+      NPM_CONFIG_GLOBALCONFIG: ${{ github.workspace }}/.artifacts/npmrc-ci-global
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Prepare controlled npm config
+        run: node scripts/prepare-npm-config.mjs
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.6.0'
+          cache: npm
+      - name: Install
+        run: npm ci --ignore-scripts
+      - name: Verify source
+        run: npm run typecheck && npm test && npm run verify:readme
+      - name: Build and capture one tarball
+        id: pack
+        run: |
+          set -euo pipefail
+          npm run build
+          TARBALL_PATH="$(node scripts/create-tarball.mjs "$GITHUB_WORKSPACE" "$RUNNER_TEMP/aihu-seo-pack")"
+          test -f "$TARBALL_PATH"
+          echo "path=$TARBALL_PATH" >> "$GITHUB_OUTPUT"
+      - name: Verify exact tarball
+        run: node scripts/verify-tarball.mjs '${{ steps.pack.outputs.path }}'
+      - name: Verify isolated consumer
+        run: node scripts/verify-consumer.mjs '${{ steps.pack.outputs.path }}'
+      - name: Verify classic-token rejection
+        env:
+          NPM_CONFIG_USERCONFIG: ${{ github.workspace }}/.artifacts/npmrc-sanitized
+        run: |
+          : > "$NPM_CONFIG_USERCONFIG"
+          node scripts/assert-oidc-contract.mjs --self-test

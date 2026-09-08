@@ -1,0 +1,29 @@
+{
+  "only": ["ts", "mjs", "json", "yml", "md"],
+  "exclude": ["node_modules", "dist", "coverage", ".artifacts", "*.tgz"],
+  "depth": 4,
+  "budgets": {},
+  "routing": {
+    "subsystems": [
+      {
+        "id": "compatibility-api",
+        "paths": ["src/**/*.ts", "tests/**/*.ts", "package.json", "install-manifest.json"],
+        "keywords": ["@aihu/seo", "@aihu-plugin/agent-readiness", "createSeoRoutes"],
+        "docs": ["README.md", "CHANGELOG.md"],
+        "note": "The deprecated entry point delegates to the published agent-readiness generators; codemap cannot infer the behavioral compatibility contract across package boundaries."
+      },
+      {
+        "id": "release-artifact-contract",
+        "paths": [".github/workflows/*.yml", "scripts/*.mjs", "consumer/**", "package.json"],
+        "keywords": ["v1.0.6", "provenance", "E404", "tarball", "NPM_CONFIG_USERCONFIG"],
+        "docs": ["README.md", "CHANGELOG.md", "docs/release.md"],
+        "note": "The release workflow, tarball verifier, and isolated consumer must agree on one package version and one captured artifact path; these are string and process couplings rather than import edges."
+      }
+    ]
+  },
+  "drift": {
+    "enabled": true,
+    "require_docs_for": ["compatibility-api", "release-artifact-contract"]
+  },
+  "guidance": {}
+}
