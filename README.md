@@ -2,14 +2,12 @@
 
 > **Aihu** — agentic discovery and interaction, for human purpose.
 
-aihu SEO plugin: sitemap.xml, robots.txt, llms.txt, JSON-LD injection via afterParse hook.
-
-Held-private workspace package. Not yet published to npm.
-
-> **Status:** Held private — not yet published to npm. See [v1.1 roadmap](../../docs/roadmap/SUMMARY.md) for ratification gating (e.g. RFC #56 live-binding for `@aihu/plugin` enforcement).
+aihu SEO compatibility plugin: sitemap.xml, robots.txt, llms.txt, and JSON-LD
+injection via the `afterParse` hook. This standalone package is published to npm
+under the `@aihu/seo` name.
 
 <!-- BEGIN_HANDWRITTEN: prose -->
-> **Deprecated (v1.0.0, #430).** `@aihu/seo` is now a thin compatibility shim over
+> **Deprecated (v1.0.0, #430).** `@aihu/seo` is a thin compatibility shim over
 > `@aihu-plugin/agent-readiness` — use that package directly. The shim preserves this
 > package's historical robots.txt default (absent `disallowAiBots` still blocks all AI
 > bots, with a deprecation warning); the new tiered `aiAgents: 'allow-agents'` default
@@ -21,7 +19,8 @@ aihu SEO plugin: sitemap.xml, robots.txt, llms.txt, JSON-LD.
 bun add @aihu/seo
 ```
 
-Full documentation: see `apps/docs/src/content/docs/packages/seo.md` (filed as A1 issue).
+The package is maintained as a compatibility entry point. New applications
+should use `@aihu-plugin/agent-readiness` directly.
 <!-- END_HANDWRITTEN: prose -->
 
 ## Install
@@ -48,7 +47,7 @@ bun add @aihu/seo
 |---|---|
 | **Version** | `1.0.5` |
 | **Tier** | C — Agent surface — DEPRECATED shim over @aihu-plugin/agent-readiness |
-| **Published files** | 4 entries |
+| **Published files** | 7 entries |
 | **License** | MIT |
 
 <sub><i>Auto-generated against `@aihu/seo@1.0.5`.</i></sub>
@@ -75,9 +74,9 @@ bun add @aihu/seo
 
 **Dependencies:**
 
-- `@aihu/plugin` — `workspace:*`
-- `@aihu/server` — `workspace:*`
-- `@aihu-plugin/agent-readiness` — `workspace:*`
+- `@aihu/plugin` — `^0.1.1`
+- `@aihu/server` — `^0.6.0`
+- `@aihu-plugin/agent-readiness` — `^2.3.0`
 
 <sub><i>Auto-generated against `@aihu/seo@1.0.5`.</i></sub>
 
@@ -88,8 +87,8 @@ bun add @aihu/seo
 <!-- BEGIN_AUTOGEN: see-also -->
 <!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
 
-- [@aihu-plugin/agent-readiness](../plugin-agent-readiness)
-- [Aihu framework root](../../README.md)
+- [@aihu-plugin/agent-readiness](https://www.npmjs.com/package/@aihu-plugin/agent-readiness)
+- [Aihu project](https://github.com/aihu-project/aihu)
 
 <sub><i>Auto-generated against `@aihu/seo@1.0.5`.</i></sub>
 
@@ -100,7 +99,7 @@ bun add @aihu/seo
 <!-- BEGIN_AUTOGEN: license -->
 <!-- regenerate: bun scripts/sync-readme.ts (also runs in pre-commit + CI) -->
 
-MIT — see [LICENSE](../../LICENSE).
+MIT — see [LICENSE](LICENSE).
 
 <sub><i>Auto-generated against `@aihu/seo@1.0.5`.</i></sub>
 

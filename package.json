@@ -23,21 +23,27 @@
   "scripts": {
     "build": "rolldown -c rolldown.config.ts",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "bun run build"
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@aihu/plugin": "workspace:*",
-    "@aihu/server": "workspace:*",
-    "@aihu-plugin/agent-readiness": "workspace:*"
+    "@aihu/plugin": "^0.1.1",
+    "@aihu/server": "^0.6.0",
+    "@aihu-plugin/agent-readiness": "^2.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.16.5",
+    "rolldown": "^1.0.0-rc.17",
+    "rolldown-plugin-dts": "^0.23.2",
+    "typescript": "^5.6.2",
+    "vitest": "^3.2.6"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aihu-project/aihu.git",
-    "directory": "packages/seo"
+    "url": "git+https://github.com/aihu-project/aihu-seo.git"
   },
-  "homepage": "https://github.com/aihu-project/aihu/tree/main/packages/seo#readme",
-  "bugs": "https://github.com/aihu-project/aihu/issues",
+  "homepage": "https://github.com/aihu-project/aihu-seo#readme",
+  "bugs": "https://github.com/aihu-project/aihu-seo/issues",
   "publishConfig": {
     "access": "public"
   }

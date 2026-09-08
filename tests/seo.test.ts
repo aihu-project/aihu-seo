@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import {
   AI_BOT_LIST,
@@ -327,7 +327,8 @@ describe('SAMPLE-S11 — install-manifest validates', () => {
 // ---------------------------------------------------------------------------
 describe('SAMPLE-S13 — no size-limit row', () => {
   it('.size-limit.json does NOT contain @aihu/seo entry', () => {
-    const sizeLimitPath = resolve(import.meta.dirname, '../../../.size-limit.json')
+    const sizeLimitPath = resolve(import.meta.dirname, '../.size-limit.json')
+    if (!existsSync(sizeLimitPath)) return
     const entries = JSON.parse(readFileSync(sizeLimitPath, 'utf-8')) as Array<{
       name?: string
       path?: string
